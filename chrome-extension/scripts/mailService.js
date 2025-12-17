@@ -110,7 +110,6 @@ export async function generateMailbox() {
       session: session
     };
   } catch (error) {
-    console.error('Error generating mailbox:', error);
     return null;
   }
 }
@@ -150,7 +149,6 @@ export async function getMessages() {
     await chrome.storage.local.set({ [CACHE_KEY]: emails });
     return emails;
   } catch (error) {
-    console.error('Error fetching messages:', error);
     const cached = await chrome.storage.local.get(CACHE_KEY);
     return cached[CACHE_KEY] || [];
   }
@@ -180,7 +178,6 @@ export async function getMessageDetail(messageId) {
       attachments: []
     };
   } catch (error) {
-    console.error('Error fetching message detail:', error);
     return null;
   }
 }
@@ -194,7 +191,6 @@ export async function deleteMessage(messageId) {
     await smartFetch(`f=del_email&email_ids[]=${messageId}&sid_token=${session.sid_token}`);
     return true;
   } catch (error) {
-    console.error('Error deleting message:', error);
     return false;
   }
 }
@@ -224,7 +220,6 @@ export async function createCustomMailbox(username, domain) {
     }
     return await generateMailbox();
   } catch (error) {
-    console.error('Error creating custom mailbox:', error);
     return null;
   }
 }

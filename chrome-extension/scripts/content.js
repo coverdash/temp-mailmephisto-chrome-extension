@@ -36,8 +36,6 @@
   // Create and inject the fill icon
   function injectIcon(input) {
     if (processedInputs.has(input)) return;
-
-    console.log('Mephisto: Injecting icon for email field:', input);
     processedInputs.add(input);
 
     // Ensure input has position context
@@ -82,8 +80,6 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     `;
 
-    console.log('Mephisto: Icon injected and positioned');
-
     // Add hover effect
     iconContainer.addEventListener('mouseenter', () => {
       iconContainer.style.backgroundColor = '#e0e7ff';
@@ -116,14 +112,12 @@
           }, 1000);
         }
       } catch (error) {
-        console.error('Error filling email:', error);
+        // Silent error
       }
     });
 
     // Append icon to the container
     container.appendChild(iconContainer);
-
-    console.log('Mephisto: Icon added to DOM');
 
     // Remove icon if input is removed
     const observer = new MutationObserver((mutations) => {
@@ -139,29 +133,16 @@
 
   // Find and process all email fields
   function processEmailFields() {
-    console.log('Mephisto: Scanning for email fields...');
     const inputs = document.querySelectorAll('input[type="email"], input[type="text"], input:not([type])');
-    console.log(`Mephisto: Found ${inputs.length} input fields`);
 
-    let emailFieldsFound = 0;
     inputs.forEach(input => {
       if (isEmailField(input)) {
-        emailFieldsFound++;
-        console.log('Mephisto: Email field detected:', {
-          type: input.type,
-          name: input.name,
-          id: input.id,
-          placeholder: input.placeholder
-        });
-
         if (!processedInputs.has(input)) {
           // Add a small delay to ensure input is fully rendered
           setTimeout(() => injectIcon(input), 100);
         }
       }
     });
-
-    console.log(`Mephisto: Found ${emailFieldsFound} email fields`);
   }
 
   // Initial processing

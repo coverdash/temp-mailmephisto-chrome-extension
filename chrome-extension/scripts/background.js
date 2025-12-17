@@ -9,8 +9,6 @@ let pollingInterval = null;
 
 // Initialize extension on install
 chrome.runtime.onInstalled.addListener(async () => {
-  console.log('Mephisto TempMail Extension installed');
-
   // Generate initial mailbox if none exists
   const session = await getSession();
   if (!session) {
@@ -21,14 +19,11 @@ chrome.runtime.onInstalled.addListener(async () => {
   try {
     if (chrome?.alarms) {
       await chrome.alarms.create('checkEmails', { periodInMinutes: 0.5 }); // 30 seconds
-      console.log('Email checking alarm created');
     } else {
       // Fallback to setInterval if alarms not available
-      console.log('Using setInterval fallback for email polling');
       setupIntervalPolling();
     }
   } catch (error) {
-    console.error('Failed to create alarm, using setInterval fallback:', error);
     setupIntervalPolling();
   }
 });
@@ -41,12 +36,9 @@ try {
         await checkForNewEmails();
       }
     });
-  } else {
-    // If alarms API not available, interval will be used instead
-    console.log('chrome.alarms.onAlarm not available, using interval fallback');
   }
 } catch (error) {
-  console.error('Failed to set up alarm listener:', error);
+  // Silent fallback
 }
 
 // Fallback polling using setInterval
@@ -57,7 +49,6 @@ function setupIntervalPolling() {
   pollingInterval = setInterval(async () => {
     await checkForNewEmails();
   }, POLL_INTERVAL);
-  console.log('Email polling interval started');
 }
 
 // Check for new emails and update badge
@@ -100,7 +91,7 @@ async function checkForNewEmails() {
     // Update previous count (set to 0 if this is first check)
     previousEmailCount = previousEmailCount === -1 ? currentCount : currentCount;
   } catch (error) {
-    console.error('Error checking emails:', error);
+    // Silent error
   }
 }
 

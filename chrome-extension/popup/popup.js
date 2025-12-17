@@ -48,7 +48,6 @@ async function loadCurrentEmail() {
       }
     }
   } catch (error) {
-    console.error('Error loading email:', error);
     emailAddress.textContent = 'Error loading email';
     showStatus('Failed to load email', true);
   }
@@ -77,7 +76,6 @@ async function copyEmail() {
       }, 2000);
     }
   } catch (error) {
-    console.error('Error copying email:', error);
     showStatus('Failed to copy email', true);
   }
 }
@@ -104,7 +102,6 @@ async function generateNewEmail() {
       await loadCurrentEmail();
     }
   } catch (error) {
-    console.error('Error generating new email:', error);
     showStatus('Failed to generate new email', true);
     await loadCurrentEmail();
   } finally {
@@ -134,7 +131,6 @@ async function refreshEmails() {
     chrome.runtime.sendMessage({ action: 'checkEmails' });
 
   } catch (error) {
-    console.error('Error refreshing emails:', error);
     showStatus('Failed to refresh emails', true);
   } finally {
     refreshBtn.disabled = false;
