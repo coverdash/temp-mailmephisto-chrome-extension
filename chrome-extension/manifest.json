@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "Mephisto TempMail",
+  "version": "1.0.0",
+  "description": "Generate temporary email addresses instantly and auto-fill email fields across the web",
+  "permissions": [
+    "storage",
+    "notifications",
+    "activeTab",
+    "clipboardWrite",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://api.guerrillamail.com/*",
+    "https://api.codetabs.com/*",
+    "https://thingproxy.freeboard.io/*",
+    "https://api.allorigins.win/*"
+  ],
+  "background": {
+    "service_worker": "scripts/background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["scripts/content-simple.js"],
+      "run_at": "document_end",
+      "all_frames": true
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/*.png"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

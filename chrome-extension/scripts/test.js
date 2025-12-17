@@ -1,0 +1,2 @@
+alert('MEPHISTO TEST LOADED!');
+console.log('MEPHISTO TEST LOADED!');

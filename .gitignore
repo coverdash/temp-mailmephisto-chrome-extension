@@ -1,0 +1,33 @@
+# Node modules
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Extension build artifacts
+*.pem
+*.crx
+*.zip
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment files
+.env
+.env.local
+
+# Temporary files
+temp/
+tmp/
+
+# Original repo (if cloned)
+temp-mailmephisto-source/

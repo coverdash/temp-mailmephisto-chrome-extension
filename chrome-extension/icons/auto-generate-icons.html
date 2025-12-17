@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto-Generate Mephisto Icons</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #1a1a1a;
+      color: #fff;
+    }
+    .status {
+      background: #2a2a2a;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .success {
+      color: #22c55e;
+    }
+    .step {
+      padding: 10px;
+      margin: 10px 0;
+      background: #333;
+      border-radius: 4px;
+    }
+    button {
+      background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Mephisto TempMail Icon Generator</h1>
+  <div class="status">
+    <p>This will automatically generate and download all 4 icon sizes.</p>
+    <button onclick="generateAllIcons()">Generate All Icons</button>
+  </div>
+  <div id="progress"></div>
+
+  <script>
+    function drawIcon(canvas) {
+      const ctx = canvas.getContext('2d');
+      const size = canvas.width;
+      const padding = size * 0.15;
+
+      // Background gradient
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#ef4444');
+      gradient.addColorStop(1, '#f97316');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, size, size);
+
+      // Email icon
+      ctx.strokeStyle = 'white';
+      ctx.fillStyle = 'white';
+      ctx.lineWidth = Math.max(2, size / 20);
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+
+      // Envelope rectangle
+      const rectX = padding;
+      const rectY = padding + size * 0.1;
+      const rectWidth = size - padding * 2;
+      const rectHeight = size * 0.6;
+      const radius = size * 0.05;
+
+      // Draw rounded rectangle
+      ctx.beginPath();
+      ctx.moveTo(rectX + radius, rectY);
+      ctx.lineTo(rectX + rectWidth - radius, rectY);
+      ctx.quadraticCurveTo(rectX + rectWidth, rectY, rectX + rectWidth, rectY + radius);
+      ctx.lineTo(rectX + rectWidth, rectY + rectHeight - radius);
+      ctx.quadraticCurveTo(rectX + rectWidth, rectY + rectHeight, rectX + rectWidth - radius, rectY + rectHeight);
+      ctx.lineTo(rectX + radius, rectY + rectHeight);
+      ctx.quadraticCurveTo(rectX, rectY + rectHeight, rectX, rectY + rectHeight - radius);
+      ctx.lineTo(rectX, rectY + radius);
+      ctx.quadraticCurveTo(rectX, rectY, rectX + radius, rectY);
+      ctx.closePath();
+      ctx.stroke();
+
+      // Envelope flap
+      ctx.beginPath();
+      ctx.moveTo(rectX, rectY);
+      ctx.lineTo(size / 2, rectY + rectHeight * 0.45);
+      ctx.lineTo(rectX + rectWidth, rectY);
+      ctx.stroke();
+    }
+
+    function downloadIcon(canvas, filename) {
+      return new Promise((resolve) => {
+        canvas.toBlob(blob => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = filename;
+          a.click();
+          URL.revokeObjectURL(url);
+          setTimeout(resolve, 100);
+        });
+      });
+    }
+
+    async function generateAllIcons() {
+      const progress = document.getElementById('progress');
+      progress.innerHTML = '<div class="step">Generating icons...</div>';
+
+      const sizes = [16, 32, 48, 128];
+
+      for (const size of sizes) {
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        drawIcon(canvas);
+
+        await downloadIcon(canvas, `icon${size}.png`);
+
+        progress.innerHTML += `<div class="step success">✓ Downloaded icon${size}.png</div>`;
+        await new Promise(resolve => setTimeout(resolve, 300));
+      }
+
+      progress.innerHTML += `
+        <div class="step success">
+          <strong>✓ All icons generated!</strong>
+          <p>Move the 4 PNG files from your Downloads folder to:<br>
+          <code>chrome-extension/icons/</code></p>
+          <p>Then reload the extension in chrome://extensions/</p>
+        </div>
+      `;
+    }
+
+    // Auto-generate on page load
+    window.addEventListener('load', () => {
+      // Uncomment the line below to auto-generate on page load
+      // generateAllIcons();
+    });
+  </script>
+</body>
+</html>

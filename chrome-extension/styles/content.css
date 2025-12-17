@@ -1,0 +1,24 @@
+/* Mephisto TempMail Extension - Content Styles */
+
+.mephisto-email-icon {
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.5) !important;
+  background: #6366f1 !important;
+  border: 2px solid white !important;
+  width: 28px !important;
+  height: 28px !important;
+}
+
+.mephisto-email-icon svg {
+  color: white !important;
+  stroke: white !important;
+}
+
+.mephisto-email-icon:hover {
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.7) !important;
+  background: #4338ca !important;
+  transform: scale(1.1) !important;
+}
+
+.mephisto-email-icon:active {
+  transform: scale(0.95) !important;
+}
