@@ -226,7 +226,7 @@ async function openEmailDetail(emailId) {
 
       <div class="detail-section">
         <div class="detail-label">Message</div>
-        <div class="detail-body">${escapeHtml(email.text || email.html || '(Empty message)')}</div>
+        <div class="detail-body">${email.html || email.text || '(Empty message)'}</div>
       </div>
     `;
   } catch (error) {

@@ -517,6 +517,27 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 16px;
-  white-space: pre-wrap;
   word-wrap: break-word;
+  overflow: auto;
+  max-width: 100%;
+}
+
+/* Style email content */
+.detail-body table {
+  max-width: 100%;
+  border-collapse: collapse;
+}
+
+.detail-body img {
+  max-width: 100%;
+  height: auto;
+}
+
+.detail-body a {
+  color: #6366f1;
+  text-decoration: none;
+}
+
+.detail-body a:hover {
+  text-decoration: underline;
 }
